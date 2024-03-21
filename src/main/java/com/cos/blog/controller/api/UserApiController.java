@@ -1,5 +1,7 @@
 package com.cos.blog.controller.api;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +13,6 @@ import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
 import com.cos.blog.service.UserService;
 
-import jakarta.servlet.http.HttpSession;
 
 @RestController							// 데이터만 리턴 해줄거라서 RestController
 public class UserApiController {
@@ -32,7 +33,7 @@ public class UserApiController {
 	
 	// 스프링 시큐리티를 사용하지 않은 로그인 방식
 	@PostMapping("/api/user/login")
-	public ResponseDto<Integer> login(@RequestBody User user /*, HttpSession session*/){
+	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
 		System.out.println("UserApiController 로그");
 		User principal = userService.로그인(user);		// principal	 : 접근주체
 		
