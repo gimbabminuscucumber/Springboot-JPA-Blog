@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cos.blog.dto.ResponseDto;
 
 
-@ControllerAdvice		// 어느 패키지, 어느 클래스에서 에러가 발생하든 이 클래스로 들어옴
+//@ControllerAdvice		// 어느 패키지, 어느 클래스에서 에러가 발생하든 이 클래스로 들어옴
 @RestController
 public class GlobalExceptionHandler {
 

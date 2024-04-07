@@ -95,8 +95,14 @@ public class DummyControllerTest {
 	// http://localhost:8000/blog/dummy/user
 	@GetMapping("/dummy/user")
 	public List<User> pageList(@PageableDefault(size = 2, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
-		Page<User> pagingUser = userRepository.findAll(pageable);		// User의 모든 데이터를 페이지 형식으로 불러오기
 		
+		// 1. 유저정보 + 페이지 정보 보기
+		// - 메소드 타입을 Page로
+//		Page<User> users = userRepository.findAll(pageable);		// User의 모든 데이터를 페이지 형식으로 불러오기
+		
+		// 2. 유저정보만 보기
+		// - 메소드 타입을 List로
+		Page<User> pagingUser = userRepository.findAll(pageable);		// User의 모든 데이터를 페이지 형식으로 불러오기
 		List<User> users = pagingUser.getContent();
 		return users;
 	}

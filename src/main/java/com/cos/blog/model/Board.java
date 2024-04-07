@@ -38,16 +38,16 @@ public class Board {
 	private String title;			// 게시글 제목
 	
 	@Lob									// 대용량 데이터
-	private String content; 	// 게시글 내용 : 내용이 길 수 있으니 섬머노트라는 라이브러리 사용, <html>태그가 섞여서 디자인이 됨
+	@Column(columnDefinition="LONGTEXT")		// @Lob이 안되면 LONGTEXT 쓰기
+	private String content; 	// 섬머노트라는 라이브러리의 <html>태그가 섞여서 디자인이 됨
 	
-	@ColumnDefault("0")		// DB에서 number로 잡을거기 때문에 따옴표(') 없이 0만 기입
 	private int count;				// 조회수
 	
 	@ManyToOne(fetch = FetchType.EAGER)	// Many = Board, User = One
 	@JoinColumn(name="userId")						// DB 내에서 Join할 거고, userId라는 필드로 사용할 거다
 	private User user;											// 작성자 / DB는 오브젝트를 저장할 수 없어서 FK를 사용하지만, 자바는 오브젝트를 저장할 수 있음
 
-	// mappedBy : 연관관계의 주인이 아니니 DB에 컬럼 만들지 마세요 ("난 FK가 아니에요")
+	// mappedBy : select하기 위해 만드는 것 / 연관관계의 주인이 아니니 DB에 컬럼 만들지 마세요 ("난 FK가 아니에요")
 	// - "board" : Reply.java의 board 칼럼
 	// fetch = FetchType : 해당 값을 언제 가져올까?
 	// - EAGER : 당장 / LAZY : 필요할때
