@@ -26,16 +26,20 @@ let index = {
 	// ajax 호출시, default가 비동기 호출
 	// ajax 통신을 이용해 3개의 데이터를 JSON으로 변경하여 insert 요청 (username, password, email)
 	// ajax가 통신을 성공하고 서버가 JSON을 리턴해주면 자동으로 자바 오브젝트로 변환해줌 (dataType: "json" >> 생략가능)
-		$.ajax({							// 1. 회원가입 수행 요청
+		$.ajax({								// 1. 회원가입 수행 요청
 			type: "POST",
 			url: "/auth/joinProc",
-			data: JSON.stringify(data),						// data : http body 데이터 / JSON.stringfy() : JS값이나, 객체를 JSON의 문자열로 변환
+			data: JSON.stringify(data),		// data : http body 데이터 / JSON.stringfy() : JS값이나, 객체를 JSON의 문자열로 변환
 			contentType: "application/json; charset=utf-8",	// body데이터가 어떤 타입인지 (MIME)
-			dataType: "json"								// 요청을 서버로해서 응답이 온 데이터는 기본적으로 모든 것은 문자열 (but 생긴게 JSON이라면 JS 오브젝트로 변경해서 보내줌)
-		}).done(function(resp){			// 2. 성공시, function 실행
-			alert("회원가입이 완료되었습니다.");
-			//alert("resp : " + resp);
-			location.href="/";
+			dataType: "json"					// 요청을 서버로해서 응답이 온 데이터는 기본적으로 모든 것은 문자열 (but 생긴게 JSON이라면 JS 오브젝트로 변경해서 보내줌)
+		}).done(function(resp){				// 2. 성공시, function 실행
+			if(resp.status === 500){		// 500에러가 발생시, (== 동일한 username으로 가입할 때)
+				alert("회원가입에 실패하였습니다.");
+				location.href="/auth/joinForm";
+			}else{
+				alert("회원가입이 완료되었습니다.");
+				location.href="/";
+			}
 		}).fail(function(error){				// 3. 실패시, function 실행
 			alert(JSON.stringify(error));
 		});	 

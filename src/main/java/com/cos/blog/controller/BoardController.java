@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cos.blog.config.auth.PrincipalDetail;
+import com.cos.blog.model.Board;
 import com.cos.blog.service.BoardService;
 
 @Controller

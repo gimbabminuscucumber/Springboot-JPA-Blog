@@ -8,6 +8,7 @@
 		게시글 번호 : <span id="id"><i>${board.id } </i></span>
 		작성자 : <span><i>${board.user.username } </i></span>
 		작성 시간 : <span><i><fmt:formatDate pattern="yyyy-MM-dd"  value="${board.createDate }"/></i></span>
+		조회수 : <span><i>${board.count } </i></span>		
 	</div>
 	<br>
 	
@@ -46,13 +47,18 @@
 	<!-- 댓글 리스트 -->
 	<div class="card">
 		<div class="card-header">댓글 리스트</div>
-			<ul id="reply--box" class="list-group">	<!-- 내장 라이브러리가 아닌 내가 만든 임의의 별칭은 하이픈(-) 두개 쓰기 -->
+			<ul id="reply-box" class="list-group">	<!-- 내장 라이브러리가 아닌 내가 만든 임의의 별칭은 하이픈(-) 두개 쓰기 -->
+				<c:if test="${empty board.replys}">
+					<div><span>&nbsp;&nbsp;&nbsp; 작성된 댓글이 없습니다.</span></div>
+				</c:if>
 				<c:forEach var="reply" items="${board.replys }">
-					<li id="reply--1" class="list-group-item d-flex justify-content-between">
+					<li id="reply-${reply.id }" class="list-group-item d-flex justify-content-between">
 						<div>${reply.content }</div>
 						<div class="d-flex">
 							<div>작성자 : ${reply.user.username }  &nbsp;</div>
-							<button class="badge">삭제</button>
+							<c:if test="${reply.user.id == principal.user.id }">	
+								<button onclick="index.replyDelete(${board.id}, ${reply.id})" class="badge">삭제</button>
+							</c:if> 
 						</div>	
 					</li>
 				</c:forEach>

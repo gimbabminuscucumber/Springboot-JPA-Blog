@@ -34,7 +34,7 @@ public class UserController {
 
 	@Value("${cos.key}")
 	private String cosKey;
-
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
@@ -51,37 +51,32 @@ public class UserController {
 		return "user/loginForm";
 	}
 	
-	@GetMapping("/user/updateForm")
-	public String updateForm() {
-		return "user/updateForm";
-	}
-	
-	@GetMapping("auth/kakao/callback")
+	@GetMapping("/auth/kakao/callback")
 	public String kakaoCallback(String code) {		// @ResponseBody : Data를 리턴해주는 컨트롤러 함수
 		
 		// 1. 카카오 토큰 받기
-		// POST 방식으로 key-value 데이터를 카카오에 요청
+		// 1-1. POST 방식으로 key-value 데이터를 카카오에 요청
 		// - <a>태그는 get방식
 		RestTemplate rt = new RestTemplate();
 		
-		// HttpHeader 오브젝트 생성
+		// 1-2. HttpHeader 오브젝트 생성
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");	// content-type :  내가 전송할 http body	데이터가 key-value 형태의 데이터이다
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");	// content-type :  내가 전송할 http body	데이터가 key-value 형태의 데이터이다
 		
-		// HttpBody 오브젝트 생성
+		// 1-3. HttpBody 오브젝트 생성
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", "7481d3f8938ab995972608ade8c364bd");
 		params.add("redirect_uri", "http://localhost:8000/auth/kakao/callback");
 		params.add("code", code);
 		
-		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+		//1-4. HttpHeader와 HttpBody를 하나의 오브젝트에 담기
 		// - kakaoTokenRequest가 headers와 params의 데이터를 가지게 된다
 		// - 하기 메소드 exchange가 HttpEntity를 받기 때문에 작성한 코드
-		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
+		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = 
 				new HttpEntity<>(params, headers);
 		
-		// Http 요청하기 (POST 방식) 
+		// 1-5. Http 요청하기 (POST 방식) 
 		// - response 변수의 응답을 받음
 		ResponseEntity<String> response = rt.exchange(
 				"https://kauth.kakao.com/oauth/token",
@@ -94,13 +89,13 @@ public class UserController {
 //		System.out.println("토큰 요청에 대한 응답(body값) : " + response.getBody());
 //		System.out.println("토큰 요청에 대한 응답(header값) : " + response.getHeaders());
 		
-		// Json 데이터를 오브젝트에 담는 라이브러리 :  Gson, Json Simple, ObjectMapper
+		// 1-6. Json 데이터를 오브젝트에 담는 라이브러리 :  Gson, Json Simple, ObjectMapper
 		// - Json 데이터를 자바로 처리하기 위해 자바 오브젝트에 담음
 		ObjectMapper objectMapper = new ObjectMapper();
 		OAuthToken oauthToken = null;
 		
 			try {
-				oauthToken =  objectMapper.readValue(response.getBody(), OAuthToken.class);	// response.getBody()를  OAuthToken.class에 담음
+				oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);	// response.getBody()를  OAuthToken.class에 담음
 			} catch (JsonMappingException e) {
 				e.printStackTrace();
 			} catch (JsonProcessingException e) {
@@ -112,20 +107,20 @@ public class UserController {
 //		System.out.println("카카오 엑세스 토큰 : " + oauthToken.getAccess_token());
 		
 		// 2. 사용자 정보 요청
-		// POST 방식으로 key-value 데이터를 카카오에 요청
+		// 2-1. POST 방식으로 key-value 데이터를 카카오에 요청
 		RestTemplate rt2 = new RestTemplate();
 		
-		// HttpHeader 오브젝트 생성
+		// 2-2. HttpHeader 오브젝트 생성
 		HttpHeaders headers2 = new HttpHeaders();
-		headers2.add("Authorization", "Bearer " + oauthToken.getAccess_token());
-		headers2.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		headers2.add("Authorization", "Bearer "+oauthToken.getAccess_token());
+		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
-		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+		// 2-3. HttpHeader와 HttpBody를 하나의 오브젝트에 담기
 		// - kakaoTokenRequest가 headers와 params의 데이터를 가지게 된다
-		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 =
+		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 = 
 				new HttpEntity<>(headers2);
 		
-		// Http 요청하기 (POST 방식) - response 변수의 응답을 받음
+		// 2-4. Http 요청하기 (POST 방식) - response 변수의 응답을 받음
 		ResponseEntity<String> response2 = rt2.exchange(
 				"https://kapi.kakao.com/v2/user/me",
 				HttpMethod.POST,
@@ -135,11 +130,12 @@ public class UserController {
 		
 //		System.out.println("카카오 요청 : " + response2.getBody());
 		
+		// 2-5. Json 데이터를 오브젝트에 담기
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		KakaoProfile kakaoProfile = null;
 		
 		try {
-			kakaoProfile =  objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
+			kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
@@ -160,7 +156,8 @@ public class UserController {
 //		UUID garbagePassword = UUID.randomUUID();
 //		System.out.println("블로그 서버 패스워드   : " + garbagePassword);
 		
-		// 카카오 로그인시 블로그 서버에 회원가입(자동 가입)
+		// 3. 카카오 로그인
+		// 3-1. 카카오 로그인시 블로그 서버에 회원가입(자동 가입)
 		// - period(.)로 사용하는 것들이 DB에 항목으로 저장됨
 		User kakaoUser = User.builder()
 				.username("kakao_"+kakaoProfile.getId())
@@ -169,12 +166,10 @@ public class UserController {
 				.oauth("kakao")
 				.build();
 		
-		// 회원, 비회원 체크
+		// 3-2. 회원, 비회원 체크
+		// - 비회원 > 회원가입 
+		// - 회원 > 로그인
 		User originUser = userService.회원찾기(kakaoUser.getUsername());
-		
-//		System.out.println("kakaoProfile.getKakao_account().getEmail() : " + kakaoProfile.getKakao_account().getEmail());
-//		System.out.println("originUser : "+originUser);
-//		System.out.println("kakaoUser : "+kakaoUser);
 		
 		if(originUser.getUsername() == null) {			// 비회원일 경우
 			userService.회원가입(kakaoUser);					// - 회원가입하기
@@ -186,8 +181,23 @@ public class UserController {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		System.out.println(authentication);
-		System.out.println(kakaoUser);
+		
+		System.out.println("SecurityContextHolder.getContext() : " + SecurityContextHolder.getContext());
+		System.out.println("SecurityContextHolder.getContext().getAuthentication() : " + SecurityContextHolder.getContext().getAuthentication());
+
+//		System.out.println("카카오 유저네임 : " + kakaoUser.getUsername());
+//		System.out.println("저장된 카카오 유저네임 : " + "kakao_"+kakaoProfile.getId());
+//		System.out.println("동일 여부 확인 : " + kakaoUser.getUsername().equals("kakao_"+kakaoProfile.getId()));
+//		System.out.println("kakaoUser : " + kakaoUser);
+//		System.out.println("authentication : " + authentication);
+//		System.out.println("authentication.getPrincipal() : " + authentication.getPrincipal());
+		
 		return "redirect:/";											// "/"페이지로 이동
 	}
+	
+	@GetMapping("/user/updateForm")
+	public String updateForm() {	
+		return "user/updateForm";
+	}
+	
 }

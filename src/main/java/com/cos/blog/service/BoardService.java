@@ -16,6 +16,8 @@ import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.ReplyRepository;
 import com.cos.blog.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 public class BoardService {
 	
@@ -25,8 +27,6 @@ public class BoardService {
 	@Autowired
 	private ReplyRepository replyRepository;
 	
-	@Autowired
-	private UserRepository userRepository;
 	
 	@Transactional								
 	public void 글쓰기(Board board, User user) {		// http에서 title, content 만 받으면 됨
@@ -68,6 +68,15 @@ public class BoardService {
 	@Transactional
 	public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
 		
+		// 1. 네이티브 쿼리 사용
+		replyRepository.mSave(
+				replySaveRequestDto.getUserId(),
+				replySaveRequestDto.getBoardId(),
+				replySaveRequestDto.getContent()
+		);
+		
+		/*
+		// 2. 영속화 사용
 		User user = userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(()->{
 			return new IllegalArgumentException("댓글 작성 실패 : 유저 id를 찾을 수 없습니다.");
 		});	// 영속화 완료
@@ -76,7 +85,7 @@ public class BoardService {
 			return new IllegalArgumentException("댓글 작성 실패 : 게시글 id를 찾을 수 없습니다.");
 		});	// 영속화 완료
 		
-		// 방법 1.
+		// 2-1. Builder 사용
 		// - board.js의 replySave에서 보낸 데이터를 받기
 //		Reply reply = Reply.builder()
 //				.user(user)
@@ -84,11 +93,18 @@ public class BoardService {
 //				.content(replySaveRequestDto.getContent())
 //				.build();
 		
-		// 방법 2. 
+		// 2-2. Reply에서 작성한 별도의 메소드(update()) 사용
 		// - model.Reply에서 update() 메소드를 만들어서 데이터 받기
 		Reply reply = new Reply();
 		reply.update(user, board, replySaveRequestDto.getContent());
-		
+
 		replyRepository.save(reply);
+		 */
 	}
+
+	@Transactional
+	public void 댓글삭제(int replyId) {
+		replyRepository.deleteById(replyId);
+	}
+
 }
