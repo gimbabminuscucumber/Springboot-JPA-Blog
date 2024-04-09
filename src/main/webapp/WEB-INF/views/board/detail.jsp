@@ -31,10 +31,15 @@
 	<br>
 	<!-- 댓글 -->
 	<div class="card">
-		<div class="card-header"><span id="id">${principal.username } </span></div>
-		<div class="card-body d-flex" >
-			<textarea class="form-control" rows="1"></textarea> &nbsp;
-			<button class="btn btn-primary" style="width: 65px">등록</button></div>
+		<form>
+			<input type="hidden" id="userId" value="${principal.user.id }"/>
+			<input type="hidden" id="boardId" value="${board.id }"/>
+			<div class="card-header"><span id="id">${principal.username } </span></div>
+			<div class="card-body d-flex" >
+				<textarea id="reply-content" class="form-control" rows="1"></textarea> &nbsp;
+				<button type="button" id="btn-reply-save" class="btn btn-primary" style="width: 65px">등록</button>
+			</div>
+		</form>
 	</div>
 
 	<br>

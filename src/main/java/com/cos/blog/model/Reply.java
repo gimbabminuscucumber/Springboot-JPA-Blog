@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,4 +42,10 @@ public class Reply {
 	
 	@CreationTimestamp
 	private Timestamp createDate;
+	
+	public void update(User user, Board board, String content) {
+		setUser(user);
+		setBoard(board);
+		setContent(content);
+	}
 }

@@ -8,15 +8,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Board;
+import com.cos.blog.model.Reply;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
+import com.cos.blog.repository.ReplyRepository;
+import com.cos.blog.repository.UserRepository;
 
 @Service
 public class BoardService {
 	
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private ReplyRepository replyRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Transactional								
 	public void 글쓰기(Board board, User user) {		// http에서 title, content 만 받으면 됨
@@ -53,5 +63,32 @@ public class BoardService {
 		board.setTitle(requestBoard.getTitle());
 		board.setContent(requestBoard.getContent());
 		// 해당 함수 종료시(=Service가 종료될 때) 트랜잭션이 종료되며 이때, 더티체킹 작되어 자동 업데이트 됨(= DB에 Flush)
+	}
+	
+	@Transactional
+	public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
+		
+		User user = userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(()->{
+			return new IllegalArgumentException("댓글 작성 실패 : 유저 id를 찾을 수 없습니다.");
+		});	// 영속화 완료
+
+		Board board = boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
+			return new IllegalArgumentException("댓글 작성 실패 : 게시글 id를 찾을 수 없습니다.");
+		});	// 영속화 완료
+		
+		// 방법 1.
+		// - board.js의 replySave에서 보낸 데이터를 받기
+//		Reply reply = Reply.builder()
+//				.user(user)
+//				.board(board)
+//				.content(replySaveRequestDto.getContent())
+//				.build();
+		
+		// 방법 2. 
+		// - model.Reply에서 update() 메소드를 만들어서 데이터 받기
+		Reply reply = new Reply();
+		reply.update(user, board, replySaveRequestDto.getContent());
+		
+		replyRepository.save(reply);
 	}
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -55,9 +56,30 @@ public class Board {
 	// - EAGER : 당장 / LAZY : 필요할때
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)		// OneToMany 는 JoinColumn을 안 가진다 >> 테이블 구성자체가 불가능	
 	@JsonIgnoreProperties({"board"})			// 자동 참조를 할 때, Board -> Reply에서 board는 제외 (무한참조를 방지하는 방법)
+	@OrderBy("id desc")										// id값을 내림차순으로 정렬
 	private List<Reply> replys;							// 여러 개의 댓글이 달릴거니까 List 사용
 	 																		
 	@CreationTimestamp
 	private Timestamp createDate;
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
