@@ -38,8 +38,15 @@
 				<c:otherwise>									<!-- 세션이 있으면 (= 로그인 돼 있으면) -->
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>
-						<li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
-						<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+						<!-- 드롭다운 -->
+						<li class="dropdown"><a class="nav-link" href="/logout" data-toggle="dropdown">회원정보▽</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="/user/updateForm">정보수정</a>
+								<a class="dropdown-item" href="/logout">로그아웃</a>
+							</div>
+						</li>
+						
+						
 					</ul>
 				</c:otherwise>
 			</c:choose>

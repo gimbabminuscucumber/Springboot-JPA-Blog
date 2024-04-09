@@ -31,3 +31,6 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+      
+cos:
+  key: cos1234     #카카오 로그인의 공통 비밀번호라서 노출되면 안됨

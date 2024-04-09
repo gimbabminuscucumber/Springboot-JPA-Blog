@@ -13,6 +13,8 @@
 		</div>
 	</c:forEach>
 	
+	<!-- 페이지 버튼 -->
+	<br>
 	<ul class="pagination justify-content-center">
 	
 		<c:choose>
@@ -32,9 +34,8 @@
 				<li class="page-item"><a class="page-link" href="?page=${boards.number+1 }">Next</a></li>
 			</c:otherwise>
 		</c:choose>
-
+			
 	</ul>
 </div>
 
 <%@ include file = "layout/footer.jsp" %>
-

@@ -37,7 +37,7 @@ public class User {
 	@Column(nullable = false, length = 100)		// 해쉬(비밀번호 암호화)하기 위해서 넉넉하게
 	private String password;
 	
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 100)
 	private String email;
 	
 	//@ColumnDefault("'user'")		// DB에서 문자열로 쓸거기 때문에 쌍따옴표(") 안에 따오묘(')를 한번 더 써서 'user'로 입력
@@ -45,6 +45,9 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private RoleType role;				// RoleType(= Enum)에 설정한 USER, ADMIN만 입력 가능
 	
-	@CreationTimestamp 			// 시간이 자동 입력
+	@CreationTimestamp 				// 시간이 자동 입력
 	private Timestamp createDate;
+	
+	// 카카오 로그인 사용자의 비밀번호 변경을 막기 (cosKey로 고정 비밀번호를 쓰고 있기 때문에 변경하면 로그인이 불가해서)
+	private String oauth;
 }

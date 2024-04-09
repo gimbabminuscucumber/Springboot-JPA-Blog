@@ -21,7 +21,7 @@ public class BoardService {
 	@Transactional								
 	public void 글쓰기(Board board, User user) {		// http에서 title, content 만 받으면 됨
 		System.out.println("BoardService");
-		board.setCount(0);						// 조회수(count)는 0부터 시작되게 설정
+		board.setCount(0);						//  조회수(count)는 0부터 시작되게 설정
 		board.setUser(user);
 		boardRepository.save(board);
 	}

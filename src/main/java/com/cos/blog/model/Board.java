@@ -18,6 +18,8 @@ import java.util.List;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,8 +53,9 @@ public class Board {
 	// - "board" : Reply.java의 board 칼럼
 	// fetch = FetchType : 해당 값을 언제 가져올까?
 	// - EAGER : 당장 / LAZY : 필요할때
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)	// OneToMany 는 JoinColumn을 안 가진다 >> 테이블 구성자체가 불가능	
-	private List<Reply> reply;																	// 여러 개의 댓글이 달릴거니까 List 사용
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)		// OneToMany 는 JoinColumn을 안 가진다 >> 테이블 구성자체가 불가능	
+	@JsonIgnoreProperties({"board"})			// 자동 참조를 할 때, Board -> Reply에서 board는 제외 (무한참조를 방지하는 방법)
+	private List<Reply> replys;							// 여러 개의 댓글이 달릴거니까 List 사용
 	 																		
 	@CreationTimestamp
 	private Timestamp createDate;
