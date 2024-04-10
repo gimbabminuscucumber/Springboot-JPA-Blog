@@ -22,7 +22,7 @@ public class PrincipalDetailService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User principal = userRepository.findByUsername(username)															// 해당 유저를 찾고
 				.orElseThrow(()->{																														// 해당 유저가 없으면
-					return new UsernameNotFoundException("해당 사용자(" + username + ")를 찾을 수 없습니다");	// 예외 처리
+					return new UsernameNotFoundException("해당 사용자("+username+")를 찾을 수 없습니다");	// 예외 처리
 				});
 		return new PrincipalDetail(principal);																								// 해당 유저가 있으면 매개변수에 담아서 PrincipalDetail 객체 생성 
 	}																																									// - 시큐리티 세션에 유저의 정보가 저장됨

@@ -14,6 +14,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)			// Exception 이 발생하면 해당 메소드 실행 (Exception 자리에 특정 예외를 넣으면 해당 예외만 처리함)
 	public ResponseDto<String> handleArgumentException(Exception e) {
+		System.out.println("GlobalExceptionHandler");
 		return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());	// 500 에러
 	}
 }

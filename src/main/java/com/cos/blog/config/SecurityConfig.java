@@ -37,7 +37,6 @@ public class SecurityConfig{
 		auth.userDetailsService(pricipalDetailService).passwordEncoder(encodePWD());
 	}
 	
-	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// 1. csrf 토근 비활성화 (테스트시에는 걸어두는게 좋음)
