@@ -61,7 +61,7 @@ public class Board {
 	@JsonIgnoreProperties({"board"})			// 자동 참조를 할 때, Board -> Reply에서 board는 제외 (무한참조를 방지하는 방법)
 	@OrderBy("id desc")										// id값을 내림차순으로 정렬
 	private List<Reply> replys;							// 여러 개의 댓글이 달릴거니까 List 사용
-	 																		
+	
 	@CreationTimestamp
 	private Timestamp createDate;
 	

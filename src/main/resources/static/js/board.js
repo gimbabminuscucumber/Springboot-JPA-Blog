@@ -22,8 +22,6 @@ let index = {
 			title: $("#title").val(),			
 			content: $("#content").val()
 		};
-	
-		console.log(data);
 
 		$.ajax({					
 			type: "POST",
@@ -64,7 +62,7 @@ let index = {
 	
 		$.ajax({					
 			type: "PUT",
-			url: "/api/board/" + id,
+			url: "/api/board/" + id,			// 백틱 : `/api/board/"${id}`
 			data: JSON.stringify(data),						
 			contentType: "application/json; charset=utf-8",	
 			dataType: "json"							

@@ -3,7 +3,7 @@ package com.cos.blog.model;
 import lombok.Data;
 
 @Data
-public class KakaoProfile {	// 외부 클래스
+public class KakaoProfile {				// 외부 클래스
 	public Long id;
 	public String connected_at;
 	public Properties properties;
@@ -17,7 +17,7 @@ public class KakaoProfile {	// 외부 클래스
 	}
 
 	@Data
-	public class KakaoAccount {		// 내부 클래스 2
+	public class KakaoAccount {			// 내부 클래스 2
 		public Boolean profile_nickname_needs_agreement;
 		public Boolean profile_image_needs_agreement;
 		public Profile profile;

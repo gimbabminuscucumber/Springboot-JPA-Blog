@@ -27,7 +27,6 @@ public class BoardService {
 	@Autowired
 	private ReplyRepository replyRepository;
 	
-	
 	@Transactional								
 	public void 글쓰기(Board board, User user) {		// http에서 title, content 만 받으면 됨
 		System.out.println("BoardService");
@@ -41,13 +40,20 @@ public class BoardService {
 		return boardRepository.findAll(pageable);
 	}
 
-	@Transactional(readOnly=true)		// select만 하기 때문에 readOnly=true
+	@Transactional(readOnly=true)	
 	public Board 글상세보기(int id) {
 		return boardRepository.findById(id)
 				.orElseThrow(()->{
-					return new IllegalArgumentException("글 상세보기 실패 : 아이디(" + id + ")를 찾을 수 없음");
+					return new IllegalArgumentException("글 상세보기 실패 : 게시글 번호("+ id +")를 찾을 수 없음");
 				});
 	} 
+	
+	@Transactional
+	public Board 조회수증가(Board board) {
+		int count = board.getCount();
+		board.setCount(count + 1);
+		return boardRepository.save(board);
+	}
 
 	@Transactional
 	public void 글삭제(int id) {

@@ -1,13 +1,21 @@
 package com.cos.blog.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -50,4 +58,11 @@ public class User {
 	
 	// 카카오 로그인 사용자의 비밀번호 변경을 막기 (cosKey로 고정 비밀번호를 쓰고 있기 때문에 변경하면 로그인이 불가해서)
 	private String oauth;
+	
+	// 테스트 ==================================================================================
+	// 특정 유저가 작성한 게시글만 따로 볼 수 있게
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)	
+	@ManyToOne
+	@JoinColumn(name="boardId")
+	private Board board;	
 }

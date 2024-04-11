@@ -38,13 +38,17 @@ public class BoardController {
 	@GetMapping("/board/{id}")
 	public String findById(@PathVariable int id, Model model) {
 		model.addAttribute("board", boardService.글상세보기(id));
+
+		// 게시글 열 때마다, 조회수 증가
+		Board board = boardService.글상세보기(id);
+		model.addAttribute("boardCount", boardService.조회수증가(board));
+		
 		return "board/detail";
 	}
 	
 	// USER 권한이 필요
 	@GetMapping("/board/saveForm")
 	public String saveForm() {
-		System.out.println("BoardController");
 		return "board/saveForm";	// /WEB-INF/views/board/saveForm.jsp 로 넘어감 
 	}
 	

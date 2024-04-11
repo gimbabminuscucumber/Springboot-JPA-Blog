@@ -6,28 +6,24 @@
 
 	<div class="card m-2">
 		<div class="card-header">
-			<i class="mtrl-select">모든 게시글</i>
+			<i class="mtrl-select">나만의 게시글</i>
 		</div>
 	</div>
 
 	<!-- 게시글 -->
-<%-- 작성자 클릭시, 작성자의 my blog가 뜨도록 게시글 작성자의 id를 가져가기--%>	
-	<form>
-		<input type="hidden" value="${board.user.id }">	<!-- 에러 발생 코드 / principal : 현재 세선에 로그인된 회원에 대한 유저 데이터 -->
-		<c:forEach  var="board" items="${boards.content}">
-			<div class="card m-2" >
-				<div class="card-body">
-					<div class="d-flex justify-content-between">
-						<h4 class="card-title">${board.title}</h4>
-						<div>작성자 : <a href=`/user/{id}/indexPrivate`>${board.user.username }</a></div>
-					</div>
-					<div>
-						<a href="/board/${board.id }" class="btn btn-primary">상세 보기</a>
-					</div>
+	<c:forEach  var="board" items="${boards.content}">
+		<div class="card m-2" >
+			<div class="card-body">
+				<div class="d-flex justify-content-between">
+					<h4 class="card-title">${board.title}</h4>
+					<div>작성자 : <a href="#">${principal.username }</a></div>
+				</div>
+				<div>
+					<a href="/board/${board.id }" class="btn btn-primary">상세 보기</a>
 				</div>
 			</div>
-		</c:forEach>
-	</form>
+		</div>
+	</c:forEach>
 	
 	<!-- 페이지 버튼 -->
 	<br>

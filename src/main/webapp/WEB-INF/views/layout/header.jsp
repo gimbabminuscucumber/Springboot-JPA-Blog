@@ -41,6 +41,7 @@
 						<!-- 드롭다운 -->
 						<li class="dropdown"><a class="nav-link" href="/logout" data-toggle="dropdown">회원정보▽</a>
 							<div class="dropdown-menu">
+								<a class="dropdown-item" href="#">내 블로그</a>
 								<a class="dropdown-item" href="/user/updateForm">정보수정</a>
 								<a class="dropdown-item" href="/logout">로그아웃</a>
 							</div>
