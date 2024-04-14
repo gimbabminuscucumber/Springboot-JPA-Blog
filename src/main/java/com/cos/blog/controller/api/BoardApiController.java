@@ -26,14 +26,12 @@ public class BoardApiController {
 	
 	@PostMapping("/api/board")
 	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail principal) { 		// User정보를 가져오기 위해 @AuthenticationPrincipal PrincipalDetail principal 사용
-		System.out.println("BoardApiController");
 		boardService.글쓰기(board, principal.getUser());
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);		// 리턴이 1이면 정상작동
 	}					
 	
 	@DeleteMapping("/api/board/{id}")
 	public ResponseDto<Integer> deleteById(@PathVariable int id	){
-		System.out.println("id : " + id);
 		boardService.글삭제(id);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	 }

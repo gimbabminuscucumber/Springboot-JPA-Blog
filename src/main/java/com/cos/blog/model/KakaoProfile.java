@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class KakaoProfile {				// 외부 클래스
-	public Long id;
+	public Long id;			// Long > Integer
 	public String connected_at;
 	public Properties properties;
 	public KakaoAccount kakao_account;
@@ -38,4 +38,3 @@ public class KakaoProfile {				// 외부 클래스
 	}
 }
   
-

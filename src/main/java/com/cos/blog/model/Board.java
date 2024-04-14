@@ -47,6 +47,9 @@ public class Board {
 	private String content; 	// 섬머노트라는 라이브러리의 <html>태그가 섞여서 디자인이 됨
 	
 	private int count;				// 조회수
+
+	@CreationTimestamp
+	private Timestamp createDate;
 	
 	@ManyToOne(fetch = FetchType.EAGER)	// Many = Board, User = One
 	@JoinColumn(name="userId")						// DB 내에서 Join할 거고, userId라는 필드로 사용할 거다
@@ -62,7 +65,5 @@ public class Board {
 	@OrderBy("id desc")										// id값을 내림차순으로 정렬
 	private List<Reply> replys;							// 여러 개의 댓글이 달릴거니까 List 사용
 	
-	@CreationTimestamp
-	private Timestamp createDate;
 	
 }

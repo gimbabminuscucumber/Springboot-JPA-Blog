@@ -27,6 +27,14 @@ public class UserService {
 	@Autowired								
 	private BCryptPasswordEncoder encoder;								// BCryptPasswordEncoder가 DI로 주입
 	
+	@Transactional(readOnly=true)
+	public User 회원찾기(String username) {
+		User user = userRepository.findByUsername(username).orElseGet(()->{	// 회원을 못 찾으면
+			return new User();																							// - 빈 객체를 반환
+		});																				
+		return user;																											// 회원을 찾으면 해당 객체를 반환
+	}
+	
 	@Transactional									// 하기의 트랜잭션(들)이 하나로 묶이게 됨
 	public void 회원가입(User user) {
 		String rawPassword = user.getPassword();						// 입력받은 비밀번호 원문
@@ -34,6 +42,12 @@ public class UserService {
 		user.setPassword(encPassword);
 		user.setRole(RoleType.USER);		// http에서 user 객체로 받아온 데이터는 username, password, email 뿐이라서 role은 직접 추가
 		userRepository.save(user);			// save() 에러시, GlobalExceptionHandler가 받아서 예외처리하기 때문에 try~catch 필요없음
+//		try {
+//			userRepository.save(user);
+//			return 1;
+//		} catch (Exception e) {
+//			return -1;
+//		}
 	}
 
 	@Transactional
@@ -48,22 +62,14 @@ public class UserService {
 		// Validate 체크
 		// - oauth에 값이 없으면 필드 수정가능
 		if(persistance.getOauth() == null || persistance.getOauth().equals("")) {
-			String rawPassword = user.getPassword();			
-			String encPassword = encoder.encode(rawPassword);	
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
 			persistance.setPassword(encPassword);
 			persistance.setEmail(user.getEmail());
 		}
 
 		// 회원 수정 함수 종료 = 서비스 종료 = 트랜젝션 종료 = 자동으로 commit 진행 
 		// = 영속화된 persistance 객체의 변화가 감지되면 더티체킹이 되어 update문을 날려줌
-	}
-
-	@Transactional(readOnly=true)
-	public User 회원찾기(String username) {
-		User user = userRepository.findByUsername(username).orElseGet(()->{	// 회원을 못 찾으면
-			return new User();																							// - 빈 객체를 반환
-		});																				
-		return user;																											// 회원을 찾으면 해당 객체를 반환
 	}
 		
 	/*

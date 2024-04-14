@@ -13,7 +13,7 @@
 	<!-- 게시글 -->
 <%-- 작성자 클릭시, 작성자의 my blog가 뜨도록 게시글 작성자의 id를 가져가기--%>	
 	<form>
-		<input type="hidden" value="${board.user.id }">	<!-- 에러 발생 코드 / principal : 현재 세선에 로그인된 회원에 대한 유저 데이터 -->
+		<input type="hidden" id="userId" value="${board.user.id }"/>	<!-- 댓글 작성자 확인에 사용 -->	<!-- 에러 발생 코드 / principal : 현재 세선에 로그인된 회원에 대한 유저 데이터 -->
 		<c:forEach  var="board" items="${boards.content}">
 			<div class="card m-2" >
 				<div class="card-body">

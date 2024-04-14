@@ -38,6 +38,7 @@ public class UserApiController {
 	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) { 				// 요청받는게 JSON이니까 @RequestBody / user 객체 사용 가능해짐
 		// 실제 DB에 insert하고 return 하기																// - JSON이 아닌 key-value 타입으로 데이터를 받으려면 @RequestBody 안 쓰면 됨
+		System.out.println("UserApiController : save 호출됨");
 		userService.회원가입(user);																			// userServive.회원가입() 메소드에 http에서 받아온 매개변수 user를 넣음
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);				// Jackson에 의해 자바오브젝트를 JSON으로 변환해서 리턴 / 회원가입이 정상이면 1을 리턴 (에러는 GlobalExceptionHandler에서 처리)
 	}						

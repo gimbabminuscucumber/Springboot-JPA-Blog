@@ -142,7 +142,7 @@ public class UserController {
  			e.printStackTrace();
 		}
 		
-		// 필요한 User 오브젝트 정보 : username, password, email
+		// 2-6. 필요한 User 오브젝트 정보 확인 ( username, password, email )
 		/*
 		System.out.println("카카오 아이디(번호) : " + kakaoProfile.getId());
 		System.out.println("카카오 이메일 : " + kakaoProfile.getKakao_account().getEmail());	// email을 받을 수가 없어서 null값이 온다
@@ -180,11 +180,9 @@ public class UserController {
 		// 로그인 처리 (=세션 등록)									// 회원일 경우 로그인 처리
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
 		
-		System.out.println("SecurityContextHolder.getContext() : " + SecurityContextHolder.getContext());
-		System.out.println("SecurityContextHolder.getContext().getAuthentication() : " + SecurityContextHolder.getContext().getAuthentication());
-
+//		System.out.println("SecurityContextHolder.getContext() : " + SecurityContextHolder.getContext());
+//		System.out.println("SecurityContextHolder.getContext().getAuthentication() : " + SecurityContextHolder.getContext().getAuthentication());
 //		System.out.println("카카오 유저네임 : " + kakaoUser.getUsername());
 //		System.out.println("저장된 카카오 유저네임 : " + "kakao_"+kakaoProfile.getId());
 //		System.out.println("동일 여부 확인 : " + kakaoUser.getUsername().equals("kakao_"+kakaoProfile.getId()));

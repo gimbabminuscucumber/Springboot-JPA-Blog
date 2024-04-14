@@ -59,10 +59,4 @@ public class User {
 	// 카카오 로그인 사용자의 비밀번호 변경을 막기 (cosKey로 고정 비밀번호를 쓰고 있기 때문에 변경하면 로그인이 불가해서)
 	private String oauth;
 	
-	// 테스트 ==================================================================================
-	// 특정 유저가 작성한 게시글만 따로 볼 수 있게
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)	
-	@ManyToOne
-	@JoinColumn(name="boardId")
-	private Board board;	
 }
