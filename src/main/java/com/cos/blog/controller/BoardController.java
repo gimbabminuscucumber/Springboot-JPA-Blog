@@ -57,4 +57,11 @@ public class BoardController {
 		model.addAttribute("board", boardService.글상세보기(id));
 		return "board/updateForm";
 	}
+	
+	// 나의 블로그
+//	@GetMapping("/board/{id}/personal")
+//	public String personal(@PathVariable int id, Model model) {
+//		model.addAttribute("personal", boardService.나의블로그(id));
+//		return "board/personal";
+//	}
 }

@@ -3,16 +3,12 @@
 <%@ include file = "../layout/header.jsp" %>	
 	
 <div class="container">
-	<form>
-		<input type="hidden" id="userId" value="${principal.user.id}" />	<!-- 댓글 작성자 확인 / id="userId"는 js로 가져감 -->
-		<input type="hidden" id="boardId" value="${board.id}" />			<!-- 댓글이 달리는 게시글 확인에 사용 -->
 		<div align="right">
 			글 번호 : <span id="id"><i>${board.id}</i></span>&nbsp;/
-			작성자 : <a href="#"><span><i>${board.user.username} </i></span></a>&nbsp;/
-			작성시간 : <span><i><fmt:formatDate pattern="yyyy-MM-dd" value="${board.createDate }"></fmt:formatDate></i></span>&nbsp;/
-			조회수 : <span><i>${board.count }</i></span>
+			작성자 : <a href="#"><span><i>${board.user.username}</i></span></a>&nbsp;/
+			작성시간 : <span><i><fmt:formatDate pattern="yyyy-MM-dd" value="${board.createDate}"></fmt:formatDate></i></span>&nbsp;/
+			조회수 : <span><i>${board.count}</i></span>
 		</div>
-	</form>
 	<br>
 	<br>
 
@@ -41,7 +37,7 @@
 		<form>
 			<input type="hidden" id="userId" value="${principal.user.id}" />	<!-- 댓글 작성자 확인 / id="userId"는 js로 가져감 -->
 			<input type="hidden" id="boardId" value="${board.id}" />			<!-- 댓글이 달리는 게시글 확인에 사용 -->
-			<div class="card-header"><span id="id">${principal.user.username }</span></div>
+			<div class="card-header"><span>${principal.user.username }</span></div>
 			<div class="card-body d-flex">
 				<textarea id="reply-content" class="form-control" rows="1"></textarea>
 				<button type="button" id="btn-reply-save" class="btn btn-primary" style="width: 65px">등록</button>
@@ -54,8 +50,7 @@
 	<div class="card">
 		<div class="card-header">댓글 리스트</div>
 			<form>
-				<input type="hidden" id="userId" value="${principal.user.id}" />	<!-- 댓글 작성자 확인 / id="userId"는 js로 가져감 -->
-				<input type="hidden" id="boardId" value="${board.id}" />			<!-- 댓글이 달리는 게시글 확인에 사용 -->
+				<input type="hidden" id="userId" value="${reply.user.id}" />	<!-- 댓글 작성자 확인 / id="userId"는 js로 가져감 -->
 				<ul id="reply-box" class="list-group">
 					<c:if test="${empty board.replys }">
 						<div><span>&nbsp;&nbsp;&nbsp; 작성된 댓글이 없습니다.</span></div>
@@ -66,7 +61,7 @@
 							<div class="d-flex">
 								<div><span>작성자 : <i><a href="#">${reply.user.username}</a></i></span>&nbsp;</div>
 								<c:if test="${reply.user.id eq principal.user.id}">
-									<button onClick="index.replyDelete(${board.id}, ${reply.id})" class="badge">삭제</button>
+									<button onclick="index.replyDelete(${board.id}, ${reply.id})" class="badge">삭제</button>
 								</c:if>
 							</div>
 						</li>

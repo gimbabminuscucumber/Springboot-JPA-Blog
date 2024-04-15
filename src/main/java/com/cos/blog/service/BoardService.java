@@ -57,6 +57,7 @@ public class BoardService {
 
 	@Transactional
 	public void 글삭제(int id) {
+		System.out.println("BoardService/id : " + id);
 		boardRepository.deleteById(id);
 	}
 
@@ -113,4 +114,9 @@ public class BoardService {
 		replyRepository.deleteById(replyId);
 	}
 
+//	@Transactional(readOnly=true)
+//	public Object 나의블로그(int id) {
+//		return boardRepository.findById(id);
+//	}
+	
 }

@@ -35,19 +35,17 @@
 						<li class="nav-item"><a class="nav-link" href="/auth/joinForm">회원가입</a></li>
 					</ul>
 				</c:when>
-				<c:otherwise>									<!-- 세션이 있으면 (= 로그인 돼 있으면) -->
+				<c:otherwise>								<!-- 세션이 있으면 (= 로그인 돼 있으면) -->
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>
 						<!-- 드롭다운 -->
 						<li class="dropdown"><a class="nav-link" href="/logout" data-toggle="dropdown">회원정보▽</a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#">내 블로그</a>
+								<a class="dropdown-item" href=`/board/personal/${principal.user.id}`>나의 블로그</a>	<!-- 메인 페이지에서 내 블로그로 들어가는 작업 중 / model, repository, service 도 추가해야하나???-->
 								<a class="dropdown-item" href="/user/updateForm">정보수정</a>
 								<a class="dropdown-item" href="/logout">로그아웃</a>
 							</div>
 						</li>
-						
-						
 					</ul>
 				</c:otherwise>
 			</c:choose>

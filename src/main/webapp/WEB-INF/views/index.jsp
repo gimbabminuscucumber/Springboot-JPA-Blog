@@ -11,27 +11,28 @@
 	</div>
 
 	<!-- 게시글 -->
-<%-- 작성자 클릭시, 작성자의 my blog가 뜨도록 게시글 작성자의 id를 가져가기--%>	
-	<form>
-		<input type="hidden" id="userId" value="${board.user.id }"/>	<!-- 댓글 작성자 확인에 사용 -->	<!-- 에러 발생 코드 / principal : 현재 세선에 로그인된 회원에 대한 유저 데이터 -->
-		<c:forEach  var="board" items="${boards.content}">
-			<div class="card m-2" >
-				<div class="card-body">
-					<div class="d-flex justify-content-between">
-						<h4 class="card-title">${board.title}</h4>
-						<div>작성자 : <a href=`/user/{id}/indexPrivate`>${board.user.username }</a></div>
-					</div>
-					<div>
-						<a href="/board/${board.id }" class="btn btn-primary">상세 보기</a>
-					</div>
+	<!-- 작성자 클릭시, 개인 블로그로 넘어가게 userId 값을 가져가게 하기 -->
+	<c:if test="${empty boards }">
+		<div>작성된 게시글이 없습니다.</div>
+	</c:if>
+	<c:forEach  var="board" items="${boards.content}">
+		<div class="card m-2" >
+			<div class="card-body">
+				<div class="d-flex justify-content-between">
+					<h4 class="card-title">${board.title}</h4>
+					<div>작성자 : <a href="#">${board.user.username }</a></div>
+				</div>
+				<div>
+					<a href="/board/${board.id }" class="btn btn-primary">상세 보기</a>
 				</div>
 			</div>
-		</c:forEach>
-	</form>
+		</div>
+	</c:forEach>
 	
 	<!-- 페이지 버튼 -->
 	<br>
 	<ul class="pagination justify-content-center">
+	
 		<c:choose>
 			<c:when test="${boards.first }">		<!-- boards에서 페이지가 fisrt이면 'Previous' 버튼 클릭 불가-->
 				<li class="page-item disabled"><a class="page-link" href="?page=${boards.number-1 }">Previous</a></li>
